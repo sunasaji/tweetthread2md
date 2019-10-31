@@ -39,6 +39,9 @@ def get_tweet_recursively(username, tweet_id):
     tweet = r.json()
     result = ''
 
+    if 'errors' in tweet.keys():
+        return tweet['errors']
+
     if tweet['in_reply_to_status_id_str']:
         result += get_tweet_recursively(
             tweet['in_reply_to_screen_name'],
