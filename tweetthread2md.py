@@ -53,12 +53,13 @@ def get_tweet_recursively(username, tweet_id):
         for url in tweet['entities']['urls']:
             tweet_text = tweet_text.replace(
                 url['url'], "<%s>" % url['expanded_url'])
-
+    media_urls = []
     if 'extended_entities' in tweet:
         if 'media' in tweet['extended_entities'].keys():
             for media in tweet['extended_entities']['media']:
-                tweet_text = tweet_text.replace(
-                    media['url'], "![image](%s)" % media['media_url_https'])
+                media_urls += ["![image](%s)" % media['media_url_https']]
+            tweet_text = tweet_text.replace(
+                ' '+media['url'], '\n'+'\n'.join(media_urls))
 
     tweet_lines = tweet_text.splitlines()
     tweet_text = "<br>\n".join(tweet_lines)
